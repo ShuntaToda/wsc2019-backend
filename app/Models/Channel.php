@@ -13,4 +13,12 @@ class Channel extends Model
     {
         return $this->hasMany(Room::class);
     }
+    public function room_count()
+    {
+        return $this->hasMany(Room::class)->count();
+    }
+    public function program_count()
+    {
+        return $this->hasManyThrough(Program::class, Room::class)->count();
+    }
 }

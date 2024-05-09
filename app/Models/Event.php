@@ -17,6 +17,8 @@ class Event extends Model
         "date"
     ];
 
+    public $timestamps = false;
+
     public function registrationsCount()
     {
         // return $this->hasManyThrough(Registration::class, EventTicket::class, "event_id", "ticket_id");
@@ -35,5 +37,10 @@ class Event extends Model
     public function channels()
     {
         return $this->hasMany(ModelsChannel::class);
+    }
+
+    public function rooms()
+    {
+        return $this->hasManyThrough(Room::class, ModelsChannel::class);
     }
 }

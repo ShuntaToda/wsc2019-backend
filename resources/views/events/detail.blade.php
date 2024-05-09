@@ -10,15 +10,15 @@
 
     <base href="../">
     <!-- Bootstrap core CSS -->
-    <link href="assets/css/bootstrap.css" rel="stylesheet">
+    <link href="/css/bootstrap.css" rel="stylesheet">
     <!-- Custom styles -->
-    <link href="assets/css/custom.css" rel="stylesheet">
+    <link href="/css/custom.css" rel="stylesheet">
 </head>
 
 <body>
 <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
     <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="events/index.html">Event Platform</a>
-    <span class="navbar-organizer w-100">{insert organization name}</span>
+    <span class="navbar-organizer w-100">{{Auth::user()->email}}</span>
     <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
             <a class="nav-link" id="logout" href="index.html">Sign out</a>
@@ -35,7 +35,7 @@
                 </ul>
 
                 <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                    <span>{insert event name}</span>
+                    <span>{{$event->name}}</span>
                 </h6>
                 <ul class="nav flex-column">
                     <li class="nav-item"><a class="nav-link active" href="events/detail.html">Overview</a></li>
@@ -53,14 +53,14 @@
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
             <div class="border-bottom mb-3 pt-3 pb-2 event-title">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center">
-                    <h1 class="h2">{insert event name}</h1>
+                    <h1 class="h2">{{$event->name}}</h1>
                     <div class="btn-toolbar mb-2 mb-md-0">
                         <div class="btn-group mr-2">
-                            <a href="events/edit.html" class="btn btn-sm btn-outline-secondary">Edit event</a>
+                            <a href="{{route("admin.event.edit", $event->id)}}" class="btn btn-sm btn-outline-secondary">Edit event</a>
                         </div>
                     </div>
                 </div>
-                <span class="h6">{insert event date}</span>
+                <span class="h6">{{$event->date}}</span>
             </div>
 
             <!-- Tickets -->
@@ -69,7 +69,7 @@
                     <h2 class="h4">Tickets</h2>
                     <div class="btn-toolbar mb-2 mb-md-0">
                         <div class="btn-group mr-2">
-                            <a href="tickets/create.html" class="btn btn-sm btn-outline-secondary">
+                            <a href="{{route("admin.tickets.create", $event->id)}}" class="btn btn-sm btn-outline-secondary">
                                 Create new ticket
                             </a>
                         </div>
@@ -78,33 +78,16 @@
             </div>
 
             <div class="row tickets">
+                @foreach($event->event_tickets as $ticket)
                 <div class="col-md-4">
                     <div class="card mb-4 shadow-sm">
                         <div class="card-body">
-                            <h5 class="card-title">Normal</h5>
-                            <p class="card-text">200.-</p>
-                            <p class="card-text">&nbsp;</p>
+                            <h5 class="card-title">{{$ticket->name}}</h5>
+                            <p class="card-text">{{$ticket->cost}}</p>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="card mb-4 shadow-sm">
-                        <div class="card-body">
-                            <h5 class="card-title">Early Bird</h5>
-                            <p class="card-text">120.-</p>
-                            <p class="card-text">Available until June 1, 2019</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card mb-4 shadow-sm">
-                        <div class="card-body">
-                            <h5 class="card-title">VIP</h5>
-                            <p class="card-text">400.-</p>
-                            <p class="card-text">100 tickets available</p>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
 
             <!-- Sessions -->
@@ -173,22 +156,16 @@
             </div>
 
             <div class="row channels">
+                @foreach($event->channels as $channel)
                 <div class="col-md-4">
                     <div class="card mb-4 shadow-sm">
                         <div class="card-body">
-                            <h5 class="card-title">Main</h5>
-                            <p class="card-text">3 sessions, 1 room</p>
+                            <h5 class="card-title">{{$channel->name}}</h5>
+                            <p class="card-text">{{$channel->program_count()}} sessions, {{$channel->room_count()}} room</p>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="card mb-4 shadow-sm">
-                        <div class="card-body">
-                            <h5 class="card-title">Side</h5>
-                            <p class="card-text">15 sessions, 2 rooms</p>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
 
             <!-- Rooms -->
@@ -214,22 +191,12 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>Room A</td>
-                        <td>1,000</td>
-                    </tr>
-                    <tr>
-                        <td>Room B</td>
-                        <td>100</td>
-                    </tr>
-                    <tr>
-                        <td>Room C</td>
-                        <td>100</td>
-                    </tr>
-                    <tr>
-                        <td>Room D</td>
-                        <td>250</td>
-                    </tr>
+                        @foreach($event->rooms as $room)
+                            <tr>
+                                <td>{{ $room->name }}</td>
+                                <td>{{ $room->capacity }}</td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>

@@ -41,7 +41,7 @@
                 <h1 class="h2">Manage Events</h1>
                 <div class="btn-toolbar mb-2 mb-md-0">
                     <div class="btn-group mr-2">
-                        <a href="events/create.html" class="btn btn-sm btn-outline-secondary">Create new event</a>
+                        <a href="{{route("admin.event.create")}}" class="btn btn-sm btn-outline-secondary">Create new event</a>
                     </div>
                 </div>
             </div>
@@ -50,7 +50,7 @@
                 @foreach($events as $event)
                 <div class="col-md-4">
                     <div class="card mb-4 shadow-sm">
-                        <a href="events/detail.html" class="btn text-left event">
+                        <a href="{{route("admin.event.show", $event->id)}}" class="btn text-left event">
                             <div class="card-body">
                                 <h5 class="card-title">{{ $event->name }}</h5>
                                 <p class="card-subtitle">{{ $event->date }}</p>

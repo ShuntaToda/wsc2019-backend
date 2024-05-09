@@ -9,11 +9,13 @@ class EventTicket extends Model
 {
     use HasFactory;
     protected $fillable = [
-        "envet_id",
+        "event_id",
         "name",
         "cost",
         "special_validity"
     ];
+
+    public $timestamps = false;
 
     public function registrations()
     {
