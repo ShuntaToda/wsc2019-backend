@@ -47,18 +47,20 @@
             </div>
 
             <div class="row events">
+                @foreach($events as $event)
                 <div class="col-md-4">
                     <div class="card mb-4 shadow-sm">
                         <a href="events/detail.html" class="btn text-left event">
                             <div class="card-body">
-                                <h5 class="card-title">WorldSkills Conference 2019</h5>
-                                <p class="card-subtitle">{insert event date}</p>
+                                <h5 class="card-title">{{ $event->name }}</h5>
+                                <p class="card-subtitle">{{ $event->date }}</p>
                                 <hr>
-                                <p class="card-text">3,546 registrations</p>
+                                <p class="card-text">{{$event->registrationsCount()}} registrations</p>
                             </div>
                         </a>
                     </div>
                 </div>
+                @endforeach
             </div>
 
         </main>
